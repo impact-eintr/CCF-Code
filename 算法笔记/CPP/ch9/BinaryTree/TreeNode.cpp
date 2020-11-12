@@ -33,10 +33,7 @@ void Tree::InsertNode(treenode<int>* &root,int x){
 
 treenode<int>* Tree::Create(int data[],int n){
     treenode<int> *root = nullptr;
-    for(int i = 0;i < 5;i++){
-        InsertNode(root,data[i]);
-    }
-    for(int i = 5;i < n;i++){
+    for(int i = 0;i < n/2;i++){
         InsertNode(root,data[i]);
     }
     return root;
@@ -71,15 +68,18 @@ void Tree::postororder(treenode<int>* root){
 
 void Tree::layerorder(treenode<int>* root){
     std::queue<treenode<int>*> q;
+    root->layer = 1;
     q.push(root);
     while(!q.empty()){
         treenode<int>* now = q.front();
         q.pop();
-        printf("%d ",now->data);
+        printf("%d %d\t",now->data,now->layer);
         if(now->lchild != nullptr){
+            now->lchild->layer = now->layer + 1;
             q.push(now->lchild);
         }
         if(now->rchild != nullptr){
+            now->rchild->layer = now->layer + 1;
             q.push(now->rchild);
         }
         printf("\n");
