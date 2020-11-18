@@ -1,16 +1,16 @@
 #include <iostream>
+typedef struct Node{
+    int x,y;
+    int pass,stay,k;
+}Node;
 int main()
 {
     int n,k,t,xl,yd,xr,yu = 0;
     std::cin >> n >> k >> t >> xl >> yd >> xr >> yu;
     
-    int stay = 0;
-    int pass = 0;
-    int passcount = 0;
-    int staycount = 0;
-    int temp = 0;
-    int x,y = 0;
     for (int i = 0;i < n;i++){
+        Node node;
+        node.
         for (int j = 0;j < t;j ++){
             std::cin >> x >> y;
             temp = pass;
