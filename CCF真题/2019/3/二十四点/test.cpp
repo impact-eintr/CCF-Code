@@ -10,8 +10,8 @@ int main()
     std::vector<int> numlist;
     for (int i = 0;i < n;i++){
         std::cin >> cal;
-        for(std::string::iterator it = d;it != cal.end();it+=2){
-
+        for(std::string::iterator it = cal.begin();it != cal.end();it+=2){
+            numlist.push_back(*it-'0');
         }
         
     }
