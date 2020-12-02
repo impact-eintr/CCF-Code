@@ -27,11 +27,8 @@ std::string handle_color(std::vector<std::vector<int> > colors,int p,int q){
         G += (*it)[1];
         B += (*it)[2];
     }
-    R = R / (p * q);
-    G = G / (p * q);
-    B = B / (p * q);
-    std::string r = std::string(R);
-
+    std::string rgb = std::to_string(R/(p*q)) + std::to_string(G/(p*q)) + std::to_string(B/(p*q));
+    return rgb;
 }
 
 int main()
@@ -56,7 +53,7 @@ int main()
                 if ( colorlist[i/p].begin() != colorlist[i/p].end()){
                     //计算上一像素行的输出值
                     for (int k = 0;k < m/p;k++){
-                        reslist.push_back(handle_color(colorlist[k]),p,q);
+                        reslist.push_back(handle_color(colorlist[k],p,q));
                         colorlist[k].clear();//清空存储体
                     }
                 }
@@ -66,10 +63,9 @@ int main()
         }
     }
     for (std::vector<std::string>::iterator it = reslist.begin();it != reslist.end();it++ ){
-        std::cout << *it;
+        std::cout <<"\\x" <<*it;
 
     }
-    std::cout << "\033[38;2;255;0;0mHello\033[0m \033[48;2;0;0;255m\033[48;2;255;255;255mworld\033[0m" << std::endl;
     return 0;
 }
 

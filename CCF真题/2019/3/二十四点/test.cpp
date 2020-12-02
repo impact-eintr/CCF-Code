@@ -1,6 +1,4 @@
 #include <iostream>
-#include <stack>
-#include <string>
 #include <vector>
 int main()
 {
@@ -8,14 +6,32 @@ int main()
     std::cin >> n;
     std::string cal;
     std::vector<int> numlist;
-    for (int i = 0;i < n;i++){
+    std::string ans;
+    for (int j = 0;j < n;j++){
         std::cin >> cal;
-        for(std::string::iterator it = cal.begin();it != cal.end();it+=2){
-            numlist.push_back(*it-'0');
+        if(!numlist.empty()){
+            numlist.clear();
         }
-        
+        numlist.push_back(cal[0]-'0');
+        for(int i = 1;i < 7;i+=2){
+            if (cal[i] == '-'){
+                numlist.push_back(-1 * (cal[i+1]-'0'));
+            }else if(cal[i] == 'x' || cal[i] == '/'){
+                numlist.back() = (cal[i] == 'x'?numlist.back()*(cal[i+1]-'0') : numlist.back()/(cal[i+1]-'0'));
+            }else{
+                numlist.push_back(cal[i+1]-'0');
+            }
+        }
+        int res = 0;
+        for (std::vector<int>::iterator it = numlist.begin();it != numlist.end();it++){
+            res += *it;
+        }
+        if (res == 24){
+            ans += "yes\n";
+        }else{
+            ans += "No\n";
+        }
     }
-    std::cout << "Hello world" << std::endl;
+    std::cout << ans << " ";
     return 0;
 }
-
