@@ -8,7 +8,8 @@ int main() {
 	std::cin >> n;
 
 	int k, t = 0;
-    long long timeres,temptime = 0;
+    long long timeres = 0;
+    long long temptime = 0;
 	for (int i = 0; i < n; i++) {
         std::cin >> k >> t;
         if(k == 1){
