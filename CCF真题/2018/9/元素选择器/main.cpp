@@ -1,15 +1,13 @@
 #include <iostream>
 #include <vector>
-#include <queue>
 #include <cstdio>
-#include <string> 
+#include <string>
+#include <algorithm>
 
 struct node{
     std::string data;
     std::string attribute;
-    std::vector<int> child;
     node *parent = NULL;
-    int childnum = 0;//子节点个数
     int layer = 200;
 };
 
@@ -53,14 +51,11 @@ int main()
         }
         if (pos != std::string::npos){
             Node[i].data = temp.substr(pos+1,attributepos-pos-2);
+            std::transform(Node[i].data.begin(),Node[i].data.end(),Node[i].data.begin(),tolower);
             Node[i].layer = (pos+1)/2;
-            int pcount = 100;
             for(std::vector<node>::reverse_iterator it = Node.rbegin();it != Node.rend();it++){
-                pcount--;
                 if(it->layer == Node[i].layer-1){
                     Node[i].parent = &(*it);
-                    it->child.push_back(i);
-                    it->childnum++;
                     break;
                 }
             }
@@ -69,42 +64,34 @@ int main()
             Node[i].layer = (pos+1)/2;
         }
     }
-
-    //std::queue<int> Q;
-    //int root = 0;
-    //Q.push(root);
-    //Node[root].parent = -1;
-    //while(!Q.empty()){
-    //    int front = Q.front();
-    //    std::cout << Node[front].layer << " " << Node[front].data << " " << Node[front].parent-><< std::endl;
-    //    Q.pop();
-    //    for(long unsigned int i = 0;i < Node[front].child.size();i++){
-    //        int child = Node[front].child[i];
-    //        Node[child].layer = Node[front].layer+1;
-    //        Q.push(child);
-    //    }
-    //}
-    //std::cout << std::endl;
-
+    
+    std::vector<std::string> ans;
     for (int j = 0;j < m;j++){
         int countres = 0;
         std::string numres ;
         std::getline(std::cin, temp);
         for(int i = 0;i < n;i++){
-            if (Node[i].data == temp){
-                countres++;
-                numres +=  " " + to_string(i+1);
+            if (temp.find(" ") == std::string::npos && temp.find("#") == std::string::npos){
+            	std::transform(temp.begin(),temp.end(),temp.begin(),tolower);
+                if(temp == Node[i].data){
+                    countres++;
+                    numres +=  " " + to_string(i+1);
+                }
             }else if(temp.substr(0,1) == "#" && Node[i].attribute == temp.substr(1)){
                 countres++;
                 numres +=  " " + to_string(i+1);
-            }else if(temp.find(" ") != std::string::npos && temp.find("#") == std::string::npos){
+            }else if(temp.find(" ") != std::string::npos){
                 std::vector<std::string> str;
                 SplitString(temp,str," ");
                 std::string strres;
                 for (int k = int(str.size()-1);k >= 0;k--){
                     strres += str[k];
                 }
-                if (Node[n-i].data == str[str.size()-1]) {
+                if (str.size() == 2 && Node[n-i].data == str[1] && Node[n-i].parent->data == str[0] ) {
+                    countres++;
+                    numres = " " + to_string(n-i+1) + numres;
+                }
+                if (str.size() > 2 && Node[n-i].data == str[str.size()-1]) {
                     node *test = NULL;
                     int count = 0;
                     std::string tempstrres;
@@ -119,8 +106,10 @@ int main()
                 }
             }
         }
-        std::cout << countres << numres << std::endl;
+        ans.push_back(to_string(countres) + numres);
+    }
+    for (int i = 0;i < int(ans.size());i++){
+        std::cout << ans[i] << std::endl;
     }
     return 0;
-
 }
